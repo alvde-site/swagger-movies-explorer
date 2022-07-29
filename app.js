@@ -7,6 +7,9 @@ const cors = require('cors');
 const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-err');
 
+const usersRouter = require('./routes/users');
+const moviesRouter = require('./routes/movies');
+
 const { PORT = 3001 } = process.env;
 
 const app = express();
@@ -37,6 +40,10 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
+
+app.use('/users', usersRouter);
+
+app.use('/movies', moviesRouter);
 
 app.use(() => {
   throw new NotFoundError('Извините, я не могу это найти!');
