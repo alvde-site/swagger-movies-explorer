@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const process = require('process');
 const cors = require('cors');
+const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-err');
 
 const { PORT = 3001 } = process.env;
@@ -40,6 +41,8 @@ app.get('/crash-test', () => {
 app.use(() => {
   throw new NotFoundError('Извините, я не могу это найти!');
 });
+
+app.use(errors()); // обработчик ошибок celebrate
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
