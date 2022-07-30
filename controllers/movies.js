@@ -18,11 +18,12 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
+    thumbnail,
+    // owner,
+    movieId,
     nameRU,
     nameEN,
-    thumbnail,
-    movieId,
   } = req.body;
   const owner = req.user._id;
 
@@ -33,12 +34,12 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
+    thumbnail,
+    owner,
+    movieId,
     nameRU,
     nameEN,
-    thumbnail,
-    movieId,
-    owner,
   })
     .then((movie) => res.send(movie))
     .catch((err) => {

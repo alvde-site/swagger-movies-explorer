@@ -26,10 +26,11 @@ moviesRouter.post('/', celebrate({
     description: Joi.string().required(),
     image: Joi.string().required().custom(validateURL),
     trailerLink: Joi.string().required().custom(validateURL),
+    thumbnail: Joi.string().required().custom(validateURL),
+    // owner: Joi.string().length(24).hex().required(),
+    movieId: Joi.number().integer(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    thumbnail: Joi.string().required().custom(validateURL),
-    movieId: Joi.number().integer(),
   }),
 }), createMovie);
 
