@@ -14,6 +14,7 @@ const moviesRouter = require('./routes/movies');
 const {
   createUser,
   login,
+  signout,
 } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 
@@ -60,7 +61,7 @@ app.post('/signup', celebrate({
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    // name: Joi.string().min(2).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
@@ -72,6 +73,13 @@ app.use(auth);
 app.use('/users', usersRouter);
 
 app.use('/movies', moviesRouter);
+
+app.post('/signout', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+}), signout);
 
 app.use(errorLogger);
 

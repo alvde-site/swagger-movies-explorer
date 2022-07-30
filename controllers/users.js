@@ -96,3 +96,26 @@ module.exports.login = (req, res, next) => {
     })
     .catch(next);
 };
+
+module.exports.signout = (req, res, next) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then(() => {
+      //     const token = jwt.sign(
+      //       { _id: user._id },
+      //       NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+      //       { expiresIn: '7d' },
+      //     );
+      //     // отправим токен, браузер сохранит его в куках
+      //     // создадим токен
+      res
+        .clearCookie('jwt')
+        .send('Куки удалены'); // если у ответа нет тела, можно использовать метод end
+    })
+    .catch(() => {
+      // возвращаем ошибку аутентификации
+      throw new UnauthorizedError('Неверный логин или пароль');
+    })
+    .catch(next);
+};
