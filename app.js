@@ -25,8 +25,8 @@ const app = express();
 const options = {
   origin: [
     'http://localhost:3000',
-    'http://alvde-mesto.nomoredomains.sbs',
-    'https://alvde-mesto.nomoredomains.sbs',
+    'http://alvdediploma.nomoredomains.xyz',
+    'https://alvdediploma.nomoredomains.xyz',
     'https://alvde-site.github.io',
   ],
   credentials: true, // эта опция позволяет устанавливать куки
@@ -61,7 +61,6 @@ app.post('/signup', celebrate({
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    // name: Joi.string().min(2).max(30),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),

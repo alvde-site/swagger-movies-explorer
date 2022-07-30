@@ -102,13 +102,6 @@ module.exports.signout = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then(() => {
-      //     const token = jwt.sign(
-      //       { _id: user._id },
-      //       NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
-      //       { expiresIn: '7d' },
-      //     );
-      //     // отправим токен, браузер сохранит его в куках
-      //     // создадим токен
       res
         .clearCookie('jwt')
         .send('Куки удалены'); // если у ответа нет тела, можно использовать метод end
