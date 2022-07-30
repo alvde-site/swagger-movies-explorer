@@ -34,10 +34,10 @@ moviesRouter.post('/', celebrate({
   }),
 }), createMovie);
 
-moviesRouter.delete('/:movieId', celebrate({
+moviesRouter.delete('/:id', celebrate({
   // валидируем параметры
   params: Joi.object().keys({
-    movieId: Joi.number().integer(),
+    id: Joi.string().length(24).hex().required(),
   }),
 }), deleteMovie);
 

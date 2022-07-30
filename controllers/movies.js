@@ -56,8 +56,8 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
-  Movie.findById(movieId)
+  const { id } = req.params;
+  Movie.findById(id)
     .orFail(() => new NotFoundError('Фильма по указанному_id в БД не найден'))
     .then((movie) => {
       if (!movie.owner.equals(req.user._id)) {
