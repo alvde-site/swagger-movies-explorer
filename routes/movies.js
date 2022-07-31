@@ -1,6 +1,4 @@
 const moviesRouter = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
-const validator = require('validator');
 
 const {
   getMovies,
@@ -8,36 +6,12 @@ const {
   deleteMovie,
 } = require('../controllers/movies');
 
-const validateURL = (value) => {
-  if (!validator.isURL(value, { require_protocol: true })) {
-    throw new Error('Неправильный формат ссылки');
-  }
-  return value;
-};
+const { validatePostMoviesRouter, validateDeleteMovie } = require('../middlewares/validations');
 
 moviesRouter.get('/', getMovies);
 
-moviesRouter.post('/', celebrate({
-  body: Joi.object().keys({
-    country: Joi.string().required(),
-    director: Joi.string().required(),
-    duration: Joi.number().integer(),
-    year: Joi.string().required(),
-    description: Joi.string().required(),
-    image: Joi.string().required().custom(validateURL),
-    trailerLink: Joi.string().required().custom(validateURL),
-    thumbnail: Joi.string().required().custom(validateURL),
-    movieId: Joi.number().integer(),
-    nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
-  }),
-}), createMovie);
+moviesRouter.post('/', validatePostMoviesRouter, createMovie);
 
-moviesRouter.delete('/:id', celebrate({
-  // валидируем параметры
-  params: Joi.object().keys({
-    id: Joi.string().length(24).hex().required(),
-  }),
-}), deleteMovie);
+moviesRouter.delete('/:id', validateDeleteMovie, deleteMovie);
 
 module.exports = moviesRouter;

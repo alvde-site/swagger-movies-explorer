@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const process = require('process');
 const cors = require('cors');
-const { celebrate, Joi, errors } = require('celebrate');
+const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -16,6 +16,7 @@ const {
   login,
   signout,
 } = require('./controllers/users');
+const { validateCreateUser, validateLogin, validateSignout } = require('./middlewares/validations');
 const auth = require('./middlewares/auth');
 
 const { PORT = 3001 } = process.env;
@@ -51,20 +52,9 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
+app.post('/signup', validateCreateUser, createUser);
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
+app.post('/signin', validateLogin, login);
 
 // авторизация
 app.use(auth);
@@ -73,12 +63,7 @@ app.use('/users', usersRouter);
 
 app.use('/movies', moviesRouter);
 
-app.post('/signout', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), signout);
+app.post('/signout', validateSignout, signout);
 
 app.use(errorLogger);
 
