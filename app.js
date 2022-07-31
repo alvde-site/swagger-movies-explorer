@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const process = require('process');
 const cors = require('cors');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -35,6 +36,8 @@ const options = {
 };
 
 app.use('*', cors(options)); // Подключаем первой миддлварой
+
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
