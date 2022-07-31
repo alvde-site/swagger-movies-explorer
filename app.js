@@ -8,6 +8,7 @@ const cors = require('cors');
 const { errors } = require('celebrate');
 const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const CentralizedErrorHandler = require('./middlewares/centralized-err-handler');
 
 const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
@@ -73,18 +74,6 @@ app.use(() => {
 
 app.use(errors()); // обработчик ошибок celebrate
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      // проверяем статус и выставляем сообщение в зависимости от него
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-});
+app.use(CentralizedErrorHandler);
 
 app.listen(PORT);
