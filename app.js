@@ -18,6 +18,7 @@ const {
   login,
   signout,
 } = require('./controllers/users');
+const { MoviesDB } = require('./utils/constants');
 const { validateCreateUser, validateLogin, validateSignout } = require('./middlewares/validations');
 const auth = require('./middlewares/auth');
 
@@ -43,7 +44,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(MoviesDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
