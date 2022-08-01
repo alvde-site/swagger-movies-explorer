@@ -1,7 +1,7 @@
 const MoviesDB = 'mongodb://localhost:27017/moviesdb';
-const BitfilmsDB = 'mongodb://localhost:27017/bitfilmsdb';
+const SecretKey = 'some-secret-key';
 
 module.exports = {
   MoviesDB,
-  BitfilmsDB,
+  SecretKey,
 };
