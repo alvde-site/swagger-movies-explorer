@@ -8,9 +8,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const limiter = require('./utils/rateLimit');
-const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const CentralizedErrorHandler = require('./middlewares/centralized-err-handler');
+const NotFoundErrorHandler = require('./middlewares/notfound-error-handler');
 
 const routes = require('./routes');
 const { MoviesDB } = require('./utils/constants');
@@ -54,9 +54,7 @@ app.use(routes);
 
 app.use(errorLogger);
 
-app.use(() => {
-  throw new NotFoundError('Извините, я не могу это найти!');
-});
+app.use(NotFoundErrorHandler);
 
 app.use(errors()); // обработчик ошибок celebrate
 
