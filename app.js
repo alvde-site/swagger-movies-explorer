@@ -12,16 +12,8 @@ const NotFoundError = require('./errors/not-found-err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const CentralizedErrorHandler = require('./middlewares/centralized-err-handler');
 
-const usersRouter = require('./routes/users');
-const moviesRouter = require('./routes/movies');
-const {
-  createUser,
-  login,
-  signout,
-} = require('./controllers/users');
+const routes = require('./routes');
 const { MoviesDB } = require('./utils/constants');
-const { validateCreateUser, validateLogin } = require('./middlewares/validations');
-const auth = require('./middlewares/auth');
 
 const { PORT = 3001 } = process.env;
 
@@ -58,18 +50,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signup', validateCreateUser, createUser);
-
-app.post('/signin', validateLogin, login);
-
-// авторизация
-app.use(auth);
-
-app.use('/users', usersRouter);
-
-app.use('/movies', moviesRouter);
-
-app.get('/signout', signout);
+app.use(routes);
 
 app.use(errorLogger);
 
