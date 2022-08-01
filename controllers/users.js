@@ -112,3 +112,16 @@ module.exports.signout = (req, res, next) => {
     })
     .catch(next);
 };
+
+module.exports.signout = (req, res, next) => {
+  Promise.resolve().then(() => {
+    res
+      .clearCookie('jwt')
+      .send('Куки удалены'); // если у ответа нет тела, можно использовать метод end
+  })
+    .catch(() => {
+    // возвращаем ошибку аутентификации
+      throw new BadRequestError('Что-то пошло не так');
+    })
+    .catch(next);
+};

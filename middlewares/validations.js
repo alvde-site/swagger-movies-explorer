@@ -27,15 +27,6 @@ const validateLogin = celebrate({
   }),
 });
 
-// Валидация /signout роута
-
-const validateSignout = celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-});
-
 // Валидация /moveis роута
 
 const validatePostMoviesRouter = celebrate({
@@ -73,7 +64,6 @@ const validationUpdateUser = celebrate({
 module.exports = {
   validateCreateUser,
   validateLogin,
-  validateSignout,
   validatePostMoviesRouter,
   validateDeleteMovie,
   validationUpdateUser,

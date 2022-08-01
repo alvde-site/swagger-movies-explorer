@@ -20,7 +20,7 @@ const {
   signout,
 } = require('./controllers/users');
 const { MoviesDB } = require('./utils/constants');
-const { validateCreateUser, validateLogin, validateSignout } = require('./middlewares/validations');
+const { validateCreateUser, validateLogin } = require('./middlewares/validations');
 const auth = require('./middlewares/auth');
 
 const { PORT = 3001 } = process.env;
@@ -69,7 +69,7 @@ app.use('/users', usersRouter);
 
 app.use('/movies', moviesRouter);
 
-app.post('/signout', validateSignout, signout);
+app.get('/signout', signout);
 
 app.use(errorLogger);
 
