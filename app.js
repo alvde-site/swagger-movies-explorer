@@ -11,27 +11,17 @@ const limiter = require('./utils/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const CentralizedErrorHandler = require('./middlewares/centralized-err-handler');
 const NotFoundErrorHandler = require('./middlewares/notfound-error-handler');
+const { options, ServerCrash } = require('./utils/constants');
 
 const routes = require('./routes');
-const { MoviesDB } = require('./utils/constants');
+const { MoviesDB } = require('./config');
 
 const { PORT = 3001 } = process.env;
 
 const app = express();
 
-const options = {
-  origin: [
-    'http://localhost:3000',
-    'http://alvdediploma.nomoredomains.xyz',
-    'https://alvdediploma.nomoredomains.xyz',
-    'https://alvde-site.github.io',
-  ],
-  credentials: true, // эта опция позволяет устанавливать куки
-};
-
 app.use('*', cors(options)); // Подключаем первой миддлварой
 app.use(helmet());
-app.use(limiter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,18 +33,19 @@ mongoose.connect(MoviesDB, {
 });
 
 app.use(requestLogger); // подключаем логгер запросов
+app.use(limiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(ServerCrash);
   }, 0);
 });
 
 app.use(routes);
 
-app.use(errorLogger);
-
 app.use(NotFoundErrorHandler);
+
+app.use(errorLogger);
 
 app.use(errors()); // обработчик ошибок celebrate
 

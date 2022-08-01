@@ -1,9 +1,10 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const { IncorrectLinkFormat } = require('../utils/constants');
 
 const validateURL = (value) => {
   if (!validator.isURL(value, { require_protocol: true })) {
-    throw new Error('Неправильный формат ссылки');
+    throw new Error(IncorrectLinkFormat);
   }
   return value;
 };

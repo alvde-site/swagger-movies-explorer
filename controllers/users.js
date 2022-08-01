@@ -7,19 +7,29 @@ const UnauthorizedError = require('../errors/unauthorized-err');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-error');
+const {
+  NotFoundUser,
+  EditProfileError,
+  IncorrectUserData,
+  UsedEmail,
+  SecretKey,
+  IncorrectLoginPassword,
+  DeletedCookie,
+  SomethingWrong,
+} = require('../utils/constants');
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь по указанному_id в БД не найден');
+        throw new NotFoundError(NotFoundUser);
       } else {
         res.send(user);
       }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Пользователь по указанному _id не найден'));
+        next(new BadRequestError(NotFoundUser));
       } else {
         next(err);
       }
@@ -39,9 +49,9 @@ module.exports.updateUser = (req, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('При обновлении профиля произошла ошибка'));
+        next(new BadRequestError(EditProfileError));
       } else if (err.name === 'CastError') {
-        next(new NotFoundError('При обновлении профиля произошла ошибка'));
+        next(new NotFoundError(EditProfileError));
       } else {
         next(err);
       }
@@ -62,9 +72,9 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+        next(new BadRequestError(IncorrectUserData));
       } else if (err.code === 11000) {
-        next(new ConflictError('email уже занят'));
+        next(new ConflictError(UsedEmail));
       } else {
         next(err);
       }
@@ -79,7 +89,7 @@ module.exports.login = (req, res, next) => {
       // создадим токен
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : SecretKey,
         { expiresIn: '7d' },
       );
       // отправим токен, браузер сохранит его в куках
@@ -92,23 +102,7 @@ module.exports.login = (req, res, next) => {
     })
     .catch(() => {
       // возвращаем ошибку аутентификации
-      throw new UnauthorizedError('Неверный логин или пароль');
-    })
-    .catch(next);
-};
-
-module.exports.signout = (req, res, next) => {
-  const { email, password } = req.body;
-
-  return User.findUserByCredentials(email, password)
-    .then(() => {
-      res
-        .clearCookie('jwt')
-        .send('Куки удалены'); // если у ответа нет тела, можно использовать метод end
-    })
-    .catch(() => {
-      // возвращаем ошибку аутентификации
-      throw new UnauthorizedError('Неверный логин или пароль');
+      throw new UnauthorizedError(IncorrectLoginPassword);
     })
     .catch(next);
 };
@@ -117,11 +111,11 @@ module.exports.signout = (req, res, next) => {
   Promise.resolve().then(() => {
     res
       .clearCookie('jwt')
-      .send('Куки удалены'); // если у ответа нет тела, можно использовать метод end
+      .send(DeletedCookie); // если у ответа нет тела, можно использовать метод end
   })
     .catch(() => {
     // возвращаем ошибку аутентификации
-      throw new BadRequestError('Что-то пошло не так');
+      throw new BadRequestError(SomethingWrong);
     })
     .catch(next);
 };
