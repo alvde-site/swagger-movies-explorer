@@ -7,7 +7,6 @@ const {
   IncorrectMoviesData,
   NotFoundMovie,
   ForbiddenDeleteMovie,
-  MovieIsRemoved,
 } = require('../utils/constants');
 
 module.exports.getMovies = (req, res, next) => {
@@ -67,7 +66,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (!movie.owner.equals(req.user._id)) {
         return next(new ForbiddenError(ForbiddenDeleteMovie));
       }
-      return movie.remove().then(() => res.send({ message: MovieIsRemoved }));
+      return movie.remove().then(() => res.send(movie));
     })
     .catch((err) => {
       if (err.name === 'CastError') {
