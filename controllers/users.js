@@ -109,7 +109,7 @@ module.exports.signout = (req, res, next) => {
   Promise.resolve().then(() => {
     res
       .clearCookie('jwt')
-      .send({message: DeletedCookie}); // если у ответа нет тела, можно использовать метод end
+      .send({ message: DeletedCookie }); // если у ответа нет тела, можно использовать метод end
   })
     .catch(() => {
     // возвращаем ошибку аутентификации
