@@ -49,7 +49,7 @@ const validatePostMoviesRouter = celebrate({
 const validateDeleteMovie = celebrate({
   // валидируем параметры
   params: Joi.object().keys({
-    id: Joi.string().length(24).hex().required(),
+    movieId: Joi.number().integer().required(),
   }),
 });
 
