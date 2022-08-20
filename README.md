@@ -14,4 +14,6 @@
 * [Ссылка на домен: https://alvdediploma.nomoredomains.xyz](https://alvdediploma.nomoredomains.xyz)
 * [Ссылка на домен: http://alvdediploma.nomoredomains.xyz](http://alvdediploma.nomoredomains.xyz)
 * [Ссылка на api https://api.alvdediploma.nomoredomains.xyz](https://api.alvdediploma.nomoredomains.xyz)
-* [Публичный IP-адрес сервера: 51.250.76.199](http://51.250.76.199)
+* [Публичный IP-адрес сервера: 51.250.73.45](http://51.250.73.45)
+* [Ссылка на пулл реквест бэкенда]()
+* [Ссылка на пулл реквест фронтенда]()
