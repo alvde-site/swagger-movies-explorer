@@ -1,8 +1,8 @@
 const options = { // Опции для cors
   origin: [
     'http://localhost:3000',
-    'http://alvdediploma.nomoredomains.xyz',
-    'https://alvdediploma.nomoredomains.xyz',
+    'http://alvde-mesto.nomoredomains.sbs',
+    'https://alvde-mesto.nomoredomains.sbs',
     'https://alvde-site.github.io',
   ],
   credentials: true, // эта опция позволяет устанавливать куки
