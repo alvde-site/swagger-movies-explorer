@@ -94,7 +94,7 @@ module.exports.login = (req, res, next) => {
       res
         .cookie('jwt', token, {
         // token - наш JWT токен, который мы отправляем
-          httpOnly: true, sameSite: 'none', secure: true,
+          httpOnly: true, sameSite: 'none', secure: true, maxAge: 24 * 60 * 60 * 1000,
         })
         .send({ token }); // если у ответа нет тела, можно использовать метод end
     })
