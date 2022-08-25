@@ -25,7 +25,7 @@ const EditProfileError = 'При обновлении профиля произ�
 const IncorrectUserData = 'Переданы некорректные данные при создании пользователя';
 const IncorrectMoviesData = 'Переданы некорректные данные при создании фильма';
 const UsedEmail = 'email уже занят';
-const DeletedCookie = 'Куки удалены';
+const DeletedToken = 'Токен удален';
 const SomethingWrong = 'Что-то пошло не так';
 const ForbiddenDeleteMovie = 'Нельзя удалить фильм';
 const MovieIsRemoved = 'Фильм удален';
@@ -47,7 +47,7 @@ module.exports = {
   IncorrectUserData,
   IncorrectMoviesData,
   UsedEmail,
-  DeletedCookie,
+  DeletedToken,
   SomethingWrong,
   ForbiddenDeleteMovie,
   MovieIsRemoved,

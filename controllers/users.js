@@ -91,12 +91,7 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
       // отправим токен, браузер сохранит его в куках
-      res
-        .cookie('jwt', token, {
-        // token - наш JWT токен, который мы отправляем
-          httpOnly: true, sameSite: 'none', secure: true, maxAge: 24 * 60 * 60 * 1000,
-        })
-        .send({ token }); // если у ответа нет тела, можно использовать метод end
+      res.send({ token }); // если у ответа нет тела, можно использовать метод end
     })
     .catch(() => {
       // возвращаем ошибку аутентификации
