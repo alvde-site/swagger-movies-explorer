@@ -5,10 +5,18 @@ const { SecretKey, AuthError, IncorrectLoginPassword } = require('../utils/const
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports = (req, res, next) => {
-  const token = req.cookies.jwt;
-  if (!token) {
-    throw new UnauthorizedError(AuthError);
+  const { authorization } = req.headers;
+
+  // убеждаемся, что  authorization есть или начинается с Bearer
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return res
+      .status(401)
+      .send({ message: AuthError });
   }
+
+  // извлечём токен
+  const token = authorization.replace('Bearer ', '');
+
   let payload;
   try {
     // попытаемся верифицировать токен
@@ -18,5 +26,5 @@ module.exports = (req, res, next) => {
     throw new UnauthorizedError(IncorrectLoginPassword);
   }
   req.user = payload; // записываем пейлоуд в объект запроса
-  next(); // пропускаем запрос дальше
+  return next(); // пропускаем запрос дальше
 };

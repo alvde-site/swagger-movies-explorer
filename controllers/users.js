@@ -14,7 +14,7 @@ const {
   UsedEmail,
   SecretKey,
   IncorrectLoginPassword,
-  DeletedCookie,
+  DeletedToken,
   SomethingWrong,
 } = require('../utils/constants');
 
@@ -91,12 +91,7 @@ module.exports.login = (req, res, next) => {
         { expiresIn: '7d' },
       );
       // отправим токен, браузер сохранит его в куках
-      res
-        .cookie('jwt', token, {
-        // token - наш JWT токен, который мы отправляем
-          httpOnly: true, sameSite: 'none', secure: true,
-        })
-        .send({ token }); // если у ответа нет тела, можно использовать метод end
+      res.send({ token }); // если у ответа нет тела, можно использовать метод end
     })
     .catch(() => {
       // возвращаем ошибку аутентификации
@@ -107,9 +102,7 @@ module.exports.login = (req, res, next) => {
 
 module.exports.signout = (req, res, next) => {
   Promise.resolve().then(() => {
-    res
-      .clearCookie('jwt')
-      .send({ message: DeletedCookie }); // если у ответа нет тела, можно использовать метод end
+    res.send({ message: DeletedToken }); // если у ответа нет тела, можно использовать метод end
   })
     .catch(() => {
     // возвращаем ошибку аутентификации
