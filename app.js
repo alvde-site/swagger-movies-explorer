@@ -7,14 +7,17 @@ const process = require('process');
 const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const fs = require('fs');
+const swaggerUi = require('swagger-ui-express');
 const limiter = require('./utils/rateLimit');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const CentralizedErrorHandler = require('./middlewares/centralized-err-handler');
 const NotFoundErrorHandler = require('./middlewares/notfound-error-handler');
 const { options, ServerCrash } = require('./utils/constants');
-
 const routes = require('./routes');
 const { MoviesDB } = require('./config');
+
+const swaggerFile = JSON.parse(fs.readFileSync('./swagger/output.json'));
 
 const { PORT = 3001 } = process.env;
 
@@ -35,6 +38,7 @@ mongoose.connect(MoviesDB, {
 app.use(requestLogger); // подключаем логгер запросов
 app.use(limiter);
 
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error(ServerCrash);
