@@ -12,6 +12,4 @@ const doc = {
   schemes: ['http'],
 };
 
-swaggerAutogen(outputFile, endpointsFiles, doc).then(({ success }) => {
-  console.log(`Generated: ${success}`);
-});
+swaggerAutogen(outputFile, endpointsFiles, doc);
