@@ -51,6 +51,4 @@ app.use(errors()); // обработчик ошибок celebrate
 
 app.use(CentralizedErrorHandler);
 
-app.listen(PORT, ()=> {
-  console.log(__dirname);
-});
+app.listen(PORT);

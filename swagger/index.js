@@ -1,8 +1,8 @@
-import { join } from 'path';
-import swaggerAutogen from 'swagger-autogen';
+const swaggerAutogen = require('swagger-autogen')();
+const { join } = require('path');
 
 const outputFile = join(__dirname, 'output.json');
-const endpointsFiles = [join(__dirname, '../routes/index.js')];
+const endpointsFiles = [join(__dirname, '..', 'app.js')];
 const doc = {
   info: {
     title: 'My API',
@@ -12,6 +12,6 @@ const doc = {
   schemes: ['http'],
 };
 
-swaggerAutogen(/* options */)(outputFile, endpointsFiles, doc).then(({ success }) => {
+swaggerAutogen(outputFile, endpointsFiles, doc).then(({ success }) => {
   console.log(`Generated: ${success}`);
 });
