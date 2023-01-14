@@ -1,10 +1,6 @@
 # Swagger документация и визуализация для API проекта Movies с системами авторизации и регистрации пользователей и работой с фильмами.
 Репозиторий для приложения проекта `Diploma`, бэкенд приложения со следующими возможностями: авторизации и регистрации пользователей, операции с фильмами и пользователями.
 
-## Ссылки
-* [Ссылка на выложенную на сервер работающую фронтенд часть приложения](https://alvde-mesto.nomoredomains.sbs/)
-* [Ссылка на api: https://api.alvde-mesto.nomorepartiesxyz.ru](https://api.alvde-mesto.nomorepartiesxyz.ru)
-
 Работа Демиденко Александра.
 Технологии используемые в проекте:
 * OpenAPI(Swagger)
@@ -16,7 +12,7 @@
 * Безопасность приложения
 
 Инструкция по развертыванию:
-* Для тестирования swagger нужно клонировать репозиторий: git clone git@github.com:alvde-site/swagger-movies-explorer.git
+* Для тестирования swagger нужно клонировать backend часть репозитория: git clone git@github.com:alvde-site/swagger-movies-explorer.git
 * Перейти в корневую директорию и установить зависимости: npm install
-* Запустить backend часть приложения на 3001 порту: npm run dev
+* Запустить backend часть приложения на 3001 порту: npm run start
 * Перейти в браузере по адресу: http://localhost:3001/api-doc
